@@ -4,9 +4,12 @@ from apiclient import discovery, errors
 from oauth2client import file, client, tools
 from httplib2 import Http
 from googleapiclient.http import MediaFileUpload
-from settings import CREDENTIAL_DIR, SCOPES, CLIENT_SECRET_FILE, DRIVE_STORAGE_NAME
+from settings import CREDENTIAL_DIR, SCOPES, CLIENT_SECRET_FILE, \
+    DRIVE_STORAGE_NAME
+
 
 class AppDriveApiClient(object):
+
     def __init__(self):
         # client authorization
         if not os.path.exists(CREDENTIAL_DIR):
@@ -39,8 +42,8 @@ class AppDriveApiClient(object):
         """
         try:
             app_folder = self.service.files().list(
-            q="mimeType='application/vnd.google-apps.folder' and name='Video Monitoring System Storage'").execute().get(
-            'files', [])
+                q="mimeType='application/vnd.google-apps.folder' and name='Video Monitoring System Storage'").execute().get(
+                'files', [])
         except Exception as e:
             print('Something went wrong on choosing application folder', e)
         if not app_folder:
@@ -51,7 +54,7 @@ class AppDriveApiClient(object):
             }
             try:
                 app_folder = self.service.files().create(body=file_metadata,
-                                                     fields='id').execute()
+                                                         fields='id').execute()
             except Exception as e:
                 print('Something went wrong on creation application folder', e)
             print('Application folder was created on the drive')
@@ -70,7 +73,7 @@ class AppDriveApiClient(object):
         else:
             print('Video Monitoring System Storage is empty')
         for file in files:
-            if not file['mimeType']=='application/vnd.google-apps.folder':
+            if not file['mimeType'] == 'application/vnd.google-apps.folder':
                 print(file['name'], file['mimeType'])
 
     def upload_file_to_drive(self, path_to_file, new_file_name):
@@ -82,9 +85,8 @@ class AppDriveApiClient(object):
         """
         file_metadata = {'name': new_file_name, 'parents': [self.storage_id]}
         media = MediaFileUpload(path_to_file)
-        self.service.files().create(body=file_metadata,
-                                           media_body=media,
-                                           fields='id').execute()
+        self.service.files().create(body=file_metadata, media_body=media,
+                                    fields='id').execute()
         print('File %s was uploaded' % new_file_name)
 
     def upload_files_to_drive(self, path_to_dir):
