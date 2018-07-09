@@ -25,13 +25,7 @@ If you use this scopes you can use for files uploading only folders which was cr
 b)'https://www.googleapis.com/auth/drive'
 If you use this scopes you can use for files uploading any folders in google drive,
  but you should know that this google drive client will be read/write access to all drive content
-
-To enable the Drive API, complete these steps:
-
--Go to the Google API Console.
--Select a project.
--In the sidebar on the left, expand APIs & auth and select APIs.
--In the displayed list of available APIs, click the link for the Google Drive API and click Enable API.
+You can change SCOPES value in future, but for this you should also remove current storage.json from CREDENTIAL_DIR.
 
 Step 2: Install the Google Client Library
 Run the following command to install the library using pip:
@@ -43,14 +37,14 @@ After all this steps, when you run firstly you application:
 You will see in your console output:
 
 Init google drive client...
-Type name of folder in google drive
+Type in name of folder in google drive
 for your application data or press Enter if you want to use default name
 >>>
 
-2. Type existing folder name from your google drive or
+2. Type in existing folder name from your google drive or
  new name (new folder will be created on drive) or press Enter for using DEFAULT_STORAGE_NAME from settings.py
 
-first time you get this message in console:
+first time (and also if you will change SCOPES value in settings.py) you get this message in console:
 Go to the following link in your browser:
 
     https://accounts.google.com/o/oauth2/auth?redirect_uri=...

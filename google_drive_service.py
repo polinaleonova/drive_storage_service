@@ -130,14 +130,17 @@ class AppDriveApiClient(object):
 
         """
         files = self.service.files().list(
-            spaces='drive', q="'" + self.storage_id + "' in parents").execute().get('files', [])
+            spaces='drive',
+            q="'" + self.storage_id + "' in parents").execute().get('files',
+            [])
         count = 0
         for f in files:
             if not f['mimeType'] == 'application/vnd.google-apps.folder':
                 file_id = f['id']
                 file_name = f['name']
                 self.service.files().delete(fileId=file_id).execute()
-                print(("File {} was removed from " + self.name_folder).format(file_name))
+                print(("File {} was removed from " + self.name_folder).format(
+                    file_name))
                 count += 1
         print(str(count) + " files were removed from application storage")
 
@@ -145,29 +148,29 @@ class AppDriveApiClient(object):
 # demo
 if __name__ == "__main__":
     print("Init google drive client...")
-    drive_fold_name = input("Type name of folder in google drive "
-                         "for your application data or press Enter "
-                          "if you want to use default name\n>>>")
+    drive_fold_name = input("Type in name of folder in google drive "
+                            "for your application data or press Enter "
+                            "if you want to use default name\n>>>")
     drive_client = AppDriveApiClient(drive_fold_name)
     drive_client.show_app_files_list()
 
     filepath = input(
-        "Type absolute path to your local file for uploading\n>>>")
+        "Type in absolute path to your local file for uploading\n>>>")
 
     filename = input(
-        "Type new name (without extension) for uploaded\
-         file or press Enter for using current name\n>>>")
+        "Type in new name (without extension) for uploaded "
+        "file or press Enter for using current name\n>>>")
     drive_client.upload_file_to_drive(filepath, filename)
 
     path_to_dir = input(
-        "Type absolute path to your local directory for \
-        content uploading\n>>>")
+        "Type in absolute path to your local directory for "
+        "content uploading\n>>>")
     drive_client.upload_files_to_drive(path_to_dir)
 
     drive_client.show_app_files_list()
 
     clean_storage = input(
-        "Do you want to remove all files from current\
-         application storage? y/n\n>>>")
+        "Do you want to remove all files from current "
+         "application storage? y/n\n>>>")
     if clean_storage == 'y':
         drive_client.clean_app_folder()
