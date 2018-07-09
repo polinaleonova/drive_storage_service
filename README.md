@@ -15,20 +15,28 @@ Select the Credentials tab, click the Create credentials button and select OAuth
 Select the application type Other, enter the name "your application name", and click the Create button.
 Click OK to dismiss the resulting dialog.
 Click the file_download (Download JSON) button to the right of the client ID.
-Create directory '.credentials' and add path to this directory in CREDENTIAL_DIR
+Create directory '.credentials' and add path to this directory in CREDENTIAL_DIR in your settings.py
 Move json file to this directory and rename it to client_secret.json.
+In your settings.py choose SCOPES value:
+
+a)'https://www.googleapis.com/auth/drive.file'
+If you use this scopes you can use for files uploading only folders which was created by your application (not by google drive user)
+
+b)'https://www.googleapis.com/auth/drive'
+If you use this scopes you can use for files uploading any folders in google drive,
+ but you should know that this google drive client will be read/write access to all drive content
+
 To enable the Drive API, complete these steps:
 
 -Go to the Google API Console.
 -Select a project.
 -In the sidebar on the left, expand APIs & auth and select APIs.
--In the displayed list of available APIs, click the link for the Drive API and click Enable API.
+-In the displayed list of available APIs, click the link for the Google Drive API and click Enable API.
 
 Step 2: Install the Google Client Library
 Run the following command to install the library using pip:
 
 pip install --upgrade google-api-python-client
-
 
 After all this steps, when you run firstly you application:
 1. run in console: python3 google_drive_service.py --noauth_local_webserver

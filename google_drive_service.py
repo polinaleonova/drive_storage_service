@@ -48,8 +48,8 @@ class AppDriveApiClient(object):
 
         try:
             app_folders = self.service.files().list(
-                q="mimeType='application/vnd.google-apps.folder' and name='" +
-                  + self.name_folder+"'").execute().get('files', [])
+                q="mimeType='application/vnd.google-apps.folder' and name='" + self.name_folder + "'").execute().get(
+                'files', [])
         except Exception as e:
             print('Something went wrong on choosing application folder', e)
 
@@ -76,7 +76,7 @@ class AppDriveApiClient(object):
 
         """
         files = self.service.files().list(
-            spaces='drive').execute().get('files', [])
+            spaces='drive', q="'" + self.storage_id + "' in parents").execute().get('files', [])
         if len(files) > 1:
             print(self.name_folder + ' content:')
             for f in files:
@@ -130,13 +130,14 @@ class AppDriveApiClient(object):
 
         """
         files = self.service.files().list(
-            spaces='drive').execute().get('files', [])
+            spaces='drive', q="'" + self.storage_id + "' in parents").execute().get('files', [])
         count = 0
         for f in files:
             if not f['mimeType'] == 'application/vnd.google-apps.folder':
                 file_id = f['id']
+                file_name = f['name']
                 self.service.files().delete(fileId=file_id).execute()
-                print("File %s was removed from " + self.name_folder % f['name'])
+                print(("File {} was removed from " + self.name_folder).format(file_name))
                 count += 1
         print(str(count) + " files were removed from application storage")
 
@@ -144,9 +145,9 @@ class AppDriveApiClient(object):
 # demo
 if __name__ == "__main__":
     print("Init google drive client...")
-    drive_fold_name = input("Type name of folder in google drive\
-                         for your application data or press Enter\
-                          if you want to use default name\n>>>")
+    drive_fold_name = input("Type name of folder in google drive "
+                         "for your application data or press Enter "
+                          "if you want to use default name\n>>>")
     drive_client = AppDriveApiClient(drive_fold_name)
     drive_client.show_app_files_list()
 
